@@ -1,0 +1,2 @@
+#!/bin/bash
+docker build -t bitplan/mediawiki:0.0.1 .

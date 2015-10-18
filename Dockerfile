@@ -28,14 +28,20 @@ ENV MEDIAWIKI mediawiki-1.23.11
 #*********************************************************************
 
 RUN \
-  apt-get install -y php5 apache2 mysql-server curl
+  apt-get install -y \
+	php5 \
+	apache2 \
+	mysql-server \
+	curl
 		
-		
+# see https://www.mediawiki.org/wiki/Manual:Installing_MediaWiki
 RUN cd /var/www/html/ && \
-	curl -O https://releases.wikimedia.org/mediawiki/$MEDIAWIKI_VERSION/$MEDIAWIKI.tar.gz && \
+  curl -O https://releases.wikimedia.org/mediawiki/$MEDIAWIKI_VERSION/$MEDIAWIKI.tar.gz && \
 	tar -xzvf $MEDIAWIKI.tar.gz && \
 	rm *.tar.gz
-		
+	
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
 		
 #*********************************************************************
 #* Expose relevant ports
@@ -46,4 +52,3 @@ EXPOSE 80
 EXPOSE 443
 # mysql 
 EXPOSE 3306
-		
