@@ -2,7 +2,7 @@
 # WF 2015-10-18
 # Mediawiki docker image entrypoint script
 # 
-set -e
+#set -e
 
 #ansi colors
 #http://www.csc.uvic.ca/~sae/seng265/fall04/tips/s265s047-tips/bash-using-colors.html
@@ -98,46 +98,52 @@ checkWikiDB() {
     
   # check mysql access
   local l_pages=`echo "select count(*) as pages from page" | dosql "$l_settings" `
-  
+  #
   # this will return a number of pages or a mysql ERROR
   #
-  # if the db does not exist or access is otherwise denied:
-  # ERROR 1045 (28000): Access denied for user '<user>'@'localhost' (using password: YES)
-  echo "$l_pages" | grep "ERROR 1045" > /dev/null
+  echo "$l_pages" | grep "ERROR 1049" > /dev/null
   if [ $? -ne 0 ]
   then
-    # if the db was just created:
-    #ERROR 1146 (42S02) at line 1: Table '<dbname>.page' doesn't exist
-    echo "$l_pages" | grep "ERROR 1146" > /dev/null
-    if [ $? -ne 0 ]
-    then
-      # if everything was o.k.
-      echo "$l_pages" | grep "pages" > /dev/null
-      if [ $? -ne 0 ]
-      then 
-        # something unexpected
-        error "$l_pages"
-      else
-        # this is what we expect
-        color_msg $green "$l_pages"
-      fi
-    else
-      # db just created - fill it
-      color_msg $blue "$dbname seems to be just created and empty - shall I initialize it with the backup from an empty mediawiki database? y/n"
-      read answer
-      case $answer in
-        y|Y|yes|Yes) initialize $l_settings;;
-        *) color_msg $green "ok - leaving things alone ...";;
-      esac
-    fi
-  else
-    getdbenv "$l_settings"
-    color_msg $red "database $dbname not accessible"
-    echo "may be it needs to be created and access granted"
-    echo ""
-    echo "create database $dbname;"
-    echo "grant all privileges on $dbname.* to $dbuser@'localhost' identified by '"$dbpass"';"
-  fi
+    # if the db does not exist or access is otherwise denied:
+    # ERROR 1045 (28000): Access denied for user '<user>'@'localhost' (using password: YES)
+	  echo "$l_pages" | grep "ERROR 1045" > /dev/null
+	  if [ $? -ne 0 ]
+	  then
+	    # if the db was just created:
+	    #ERROR 1146 (42S02) at line 1: Table '<dbname>.page' doesn't exist
+	    echo "$l_pages" | grep "ERROR 1146" > /dev/null
+	    if [ $? -ne 0 ]
+	    then
+	      # if everything was o.k.
+	      echo "$l_pages" | grep "pages" > /dev/null
+	      if [ $? -ne 0 ]
+	      then 
+	        # something unexpected
+	        error "$l_pages"
+	      else
+	        # this is what we expect
+	        color_msg $green "$l_pages"
+	      fi
+	    else
+	      # db just created - fill it
+	      color_msg $blue "$dbname seems to be just created and empty - shall I initialize it with the backup from an empty mediawiki database? y/n"
+	      read answer
+	      case $answer in
+	        y|Y|yes|Yes) initialize $l_settings;;
+	        *) color_msg $green "ok - leaving things alone ...";;
+	      esac
+	    fi
+	  else
+	    # something unexpected
+	    error "$l_pages"
+	  fi
+	else
+	  getdbenv "$l_settings"
+	  color_msg $red  "$l_pages: database $dbname not created yet"
+	  color_msg $blue "will create database $dbname now ..."
+	  echo "create database $dbname;" | mysql --host="$dbserver" --user="$dbuser" --password="$dbpass" 2>&1
+	  echo "grant all privileges on $dbname.* to $dbuser@'localhost' identified by '"$dbpass"';" | dosql "$l_settings"
+	fi
 }
 
 
