@@ -1,2 +1,3 @@
 #!/bin/bash
-docker run -it bitplan/mediawiki:0.0.1 /bin/bash
+docker-machine env default
+docker run -it -p 80:80  bitplan/mediawiki:0.0.1 /bin/bash

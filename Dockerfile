@@ -22,15 +22,19 @@ MAINTAINER Wolfgang Fahl info@bitplan.com
 ENV MEDIAWIKI_VERSION 1.23
 ENV MEDIAWIKI mediawiki-1.23.11
 
-
 #*********************************************************************
 # Install Linux Apache MySQL PHP (LAMP)
 #*********************************************************************
 
+# see https://www.mediawiki.org/wiki/Manual:Running_MediaWiki_on_Ubuntu 
 RUN \
   apt-get install -y \
-	php5 \
 	apache2 \
+	php5 \
+	php5-cli \
+	php5-mysql \
+	php5-gd \
+	libapache2-mod-php5 \
 	mysql-server \
 	curl
 		
@@ -39,7 +43,9 @@ RUN cd /var/www/html/ && \
   curl -O https://releases.wikimedia.org/mediawiki/$MEDIAWIKI_VERSION/$MEDIAWIKI.tar.gz && \
 	tar -xzvf $MEDIAWIKI.tar.gz && \
 	rm *.tar.gz
-	
+
+RUN a2enmod php5
+
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 		
