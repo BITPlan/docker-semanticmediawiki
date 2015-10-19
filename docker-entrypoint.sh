@@ -161,6 +161,7 @@ checkWikiDB() {
 # 
 prepare_mediawiki() {
   local l_settings="$1"
+  local l_hostname=`hostname`
   ln -s $mwpath $apachepath/mediawiki
 	cat << EOF > $l_settings
 <?php
@@ -195,14 +196,14 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 \$wgScriptExtension = ".php";
 
 ## The protocol and server name to use in fully-qualified URLs
-\$wgServer = "http://localhost";
+\$wgServer = "http://$l_hostname";
 
 ## The relative URL path to the skins directory
-\$wgStylePath = "$wgScriptPath/skins";
+\$wgStylePath = "\$wgScriptPath/skins";
 
 ## The relative URL path to the logo.  Make sure you change this from the default,
 ## or else you'll overwrite your logo when you upgrade!
-\$wgLogo = "$wgStylePath/common/images/wiki.png";
+\$wgLogo = "\$wgStylePath/common/images/wiki.png";
 
 ## UPO means: this is also a user preference option
 

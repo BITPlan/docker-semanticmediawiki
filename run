@@ -5,4 +5,4 @@
 # get the docker machine settings
 docker-machine env default
 # run the mediawiki image
-docker run -it -p 80:80 --net=host bitplan/mediawiki:0.0.1 /bin/bash
+docker run -it -p 80:80 --hostname=docker bitplan/mediawiki:0.0.1 /bin/bash
