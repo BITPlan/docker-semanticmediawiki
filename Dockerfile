@@ -30,13 +30,14 @@ ENV MEDIAWIKI mediawiki-1.23.11
 RUN \
   apt-get install -y \
 	apache2 \
-	php5 \
-	php5-cli \
-	php5-mysql \
-	php5-gd \
+	curl \
+	git \
 	libapache2-mod-php5 \
 	mysql-server \
-	curl
+	php5 \
+	php5-cli \
+	php5-gd \
+	php5-mysql
 		
 # see https://www.mediawiki.org/wiki/Manual:Installing_MediaWiki
 RUN cd /var/www/html/ && \
