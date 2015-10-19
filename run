@@ -1,3 +1,8 @@
 #!/bin/bash
+# Copyright (c) 2015 BITPlan GmbH
+# WF 2015-10-18
+
+# get the docker machine settings
 docker-machine env default
-docker run -it -p 80:80  bitplan/mediawiki:0.0.1 /bin/bash
+# run the mediawiki image
+docker run -it -p 80:80 --net=host bitplan/mediawiki:0.0.1 /bin/bash
