@@ -45,6 +45,7 @@ RUN cd /var/www/html/ && \
 	tar -xzvf $MEDIAWIKI.tar.gz && \
 	rm *.tar.gz
 
+# Activea Apache PHP5 module
 RUN a2enmod php5
 
 COPY ./docker-entrypoint.sh /
