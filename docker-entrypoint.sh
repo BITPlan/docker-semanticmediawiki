@@ -2,6 +2,8 @@
 #
 # Copyright (c) 2015 BITPlan GmbH
 #
+# see LICENSE
+#
 # WF 2015-10-18
 # 
 # Mediawiki docker image entrypoint script

@@ -1,6 +1,10 @@
 #!/bin/bash
 # Copyright (c) 2015 BITPlan GmbH
+#
+# see LICENSE
+#
 # WF 2015-10-18
+#
 
 # get the docker machine settings
 docker-machine env default

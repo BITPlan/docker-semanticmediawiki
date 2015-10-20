@@ -1,5 +1,9 @@
 #*********************************************************************
 #
+# Copyright (c) 2015 BITPlan GmbH
+# 
+# see LICENSE
+#
 # Dockerfile to build MediaWiki server 
 # Based on ubuntu 
 #
