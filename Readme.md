@@ -12,24 +12,25 @@ See  https://www.mediawiki.org/wiki/MediaWiki
 
 ## Installation
 * get your Docker installation up and running https://docs.docker.com/installation/
+* run the following commands in a shell/terminal:
 ```
 git clone https://github.com/BITPlan/docker-mediawiki
 cd docker-mediawiki
 ./build
 ./run
 ```
-point your browser to 
+* point your browser to 
   http://ip-address
 for the apache default page
   http://ip-address/mediawiki
 for the mediawiki installation
-login with
+* login with
 user: Sysop
 password: as displayed by the run script
 
 the ip-address is shown at the start of "run".
 
-If you add
+* If you add
 ```
 docker <ip-address>
 ```
