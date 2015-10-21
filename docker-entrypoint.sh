@@ -307,63 +307,71 @@ EOF
 }
 
 #
+# installation of mediawiki
+#
+mediawiki_install() {
+	color_msg $blue "Preparing Mediawiki $MEDIAWIKI_VERSION docker image"
+	
+	# set the Path to the Apache Document root
+	apachepath=/var/www/html
+	
+	# set the Path to the Mediawiki installation (influenced by MEDIAWIKI ENV variable)
+	mwpath=$apachepath/$MEDIAWIKI
+	
+	# MediaWiki LocalSettings.php path
+	localsettings_dist=$mwpath/LocalSettings.php.dist
+	localsettings=$mwpath/LocalSettings.php
+	  
+	# prepare mysql
+	prepare_mysql
+	
+	# prepare the mediawiki
+	prepare_mediawiki $localsettings_dist
+	
+	# make sure the Wiki Database exists
+	checkWikiDB $localsettings_dist
+	
+	# get the database environment variables
+	getdbenv $localsettings_dist
+	
+	# create a random SYSOP passsword
+	SYSOP_PASSWD=`random_password`
+	 
+	# run the Mediawiki install script
+	php $mwpath/maintenance/install.php \
+	  --dbname $dbname \
+	  --dbpass $dbpass \
+	  --dbserver $dbserver \
+	  --dbtype mysql \
+	  --dbuser $dbuser \
+	  --email mediawiki@localhost \
+	  --installdbpass $dbpass \
+	  --installdbuser $dbuser \
+	  --pass $SYSOP_PASSWD \
+	  --scriptpath /mediawiki \
+	  Sysop
+	
+	color_msg $blue "Mediawiki has been installed with a single user" 
+	echo "select user_name from user" | dosql $localsettings_dist
+	
+	# start the services
+	service apache2 start
+	
+	# enable the LocalSettings
+	# move the LocalSettings.php created by the installer above to the side
+	mv $mwpath/LocalSettings.php $mwpath/LocalSettings.php.install
+	# use the one created by this script instead
+	mv $mwpath/LocalSettings.php.dist $mwpath/LocalSettings.php
+	
+	color_msg $blue "you can now login to MediaWiki with"
+	color_msg $blue "User:Sysop"
+	color_msg $blue "Password:$SYSOP_PASSWD"
+}
+
+#
 # Start of Docker Entrypoint
-# 
-color_msg $blue "Preparing Mediawiki $MEDIAWIKI_VERSION docker image"
+#
+mediawiki_install
 
-# set the Path to the Apache Document root
-apachepath=/var/www/html
-
-# set the Path to the Mediawiki installation (influenced by MEDIAWIKI ENV variable)
-mwpath=$apachepath/$MEDIAWIKI
-
-# MediaWiki LocalSettings.php path
-localsettings_dist=$mwpath/LocalSettings.php.dist
-localsettings=$mwpath/LocalSettings.php
-  
-# prepare mysql
-prepare_mysql
-
-# prepare the mediawiki
-prepare_mediawiki $localsettings_dist
-
-# make sure the Wiki Database exists
-checkWikiDB $localsettings_dist
-
-# get the database environment variables
-getdbenv $localsettings_dist
-
-# create a random SYSOP passsword
-SYSOP_PASSWD=`random_password`
- 
-# run the Mediawiki install script
-php $mwpath/maintenance/install.php \
-  --dbname $dbname \
-  --dbpass $dbpass \
-  --dbserver $dbserver \
-  --dbtype mysql \
-  --dbuser $dbuser \
-  --email mediawiki@localhost \
-  --installdbpass $dbpass \
-  --installdbuser $dbuser \
-  --pass $SYSOP_PASSWD \
-  --scriptpath /mediawiki \
-  Sysop
-
-color_msg $blue "Mediawiki has been installed with a single user" 
-echo "select user_name from user" | dosql $localsettings_dist
-
-# start the services
-service apache2 start
-
-# enable the LocalSettings
-# move the LocalSettings.php created by the installer above to the side
-mv $mwpath/LocalSettings.php $mwpath/LocalSettings.php.install
-# use the one created by this script instead
-mv $mwpath/LocalSettings.php.dist $mwpath/LocalSettings.php
-
-color_msg $blue "you can now login to MediaWiki with"
-color_msg $blue "User:Sysop"
-color_msg $blue "Password:$SYSOP_PASSWD"
 # Execute docker run parameter 
 exec "$@"
