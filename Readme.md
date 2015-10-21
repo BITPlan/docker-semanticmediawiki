@@ -30,8 +30,9 @@ password: as displayed by the run script
 the ip-address is shown at the start of "run".
 
 If you add
+```
 docker <ip-address>
-
+```
 to your /etc/hosts file
 
 you can browse to the mediawiki via the url
