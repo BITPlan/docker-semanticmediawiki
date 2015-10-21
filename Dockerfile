@@ -35,6 +35,7 @@ RUN \
   apt-get install -y \
 	apache2 \
 	curl \
+	dialog \
 	git \
 	libapache2-mod-php5 \
 	mysql-server \

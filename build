@@ -6,4 +6,16 @@
 # WF 2015-10-18
 # 
 # build the MediaWiki image
-docker build -t bitplan/mediawiki:0.0.1 .
+
+version="0.0.1"
+# remember the time we started this
+start_date=$(date -u +"%s")
+# build the image
+docker build -t bitplan/mediawiki:$version .
+
+# stop the end time
+end_date=$(date -u +"%s")
+
+# show how long this took
+diff=$(($end_date-$start_date))
+echo "build took $(($diff / 60)) minutes and $(($diff % 60)) seconds."
