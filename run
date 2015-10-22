@@ -7,8 +7,8 @@
 #
 
 # set the imagehostname
-imagehostname="mediawiki"
-containername="mediawiki"
+imagehostname="smw"
+containername="smw"
 
 # get the hostname
 hostname=`hostname`
@@ -32,11 +32,13 @@ color_msg() {
 	echo -e "${l_color}$l_msg${endColor}"
 }
 
+# remember the time we started this
+start_date=$(date -u +"%s")
 
 # get the docker machine settings
 eval `docker-machine env default | grep DOCKER_HOST`
 DOCKER_IP=`echo $DOCKER_HOST | cut -f2 -d: | cut -f3 -d/`
-grep $DOCKER_IP /etc/hosts > /dev/null
+grep $DOCKER_IP /etc/hosts | grep $imagehostname > /dev/null
 if [ $? -ne 0 ]
 then
   color_msg $red "$DOCKER_IP $imagehostname" 
@@ -52,13 +54,40 @@ then
 else
   color_msg $green "$imagehostname $DOCKER_IP already in /etc/hosts on $hostname"
 fi
-# run the mediawiki image
-if [  $# -eq 0 ]
-then 
-  params="/bin/bash"
-else
-  params="$@"
-fi
+
+
 #echo "params: $params"
-# run docker and map port 80
-docker run -it -p 80:80 --name=$containername --hostname=$imagehostname bitplan/mediawiki:0.0.1 $params 
+
+# run or install the mediawiki image
+containerid=`docker ps -aq --filter "name=$containername"`
+if [ "$containerid" == "" ]
+then
+  if [  $# -eq 0 ]
+  then 
+    params="-smw"
+  else
+    params="$@"
+  fi
+  color_msg $green "running new container $containername with imagehostname $imagehostname"
+  # run docker to install and map port 80
+  docker run -it -p 80:80 --name=$containername --hostname=$imagehostname bitplan/mediawiki:0.0.1 $params 
+else
+  color_msg $green "container $containername already exists with id $containerid."
+  color_msg $green "Remove this container with 'docker rm $containername' it to reinstall"
+  runcontainerid=`docker ps -q --filter "name=$containername"`
+  # check if the container is running
+  if [ "$runcontainerid" == "" ]
+  then
+    color_msg $blue "restarting container $containername without reinstall"
+    docker start $containername   
+  fi
+  color_msg $green "will start a shell for you ..."
+  docker exec -it $containername /bin/bash
+fi
+
+# stop the end time
+end_date=$(date -u +"%s")
+
+# show how long this took
+diff=$(($end_date-$start_date))
+color_msg $blue "run took $(($diff / 60)) minutes and $(($diff % 60)) seconds."

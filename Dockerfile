@@ -66,9 +66,13 @@ RUN cd /var/www/html/ && \
 RUN a2enmod php5
 
 # Copy the install script
-COPY ./docker-entrypoint.sh /
+COPY ./image/docker-entrypoint.sh /
+
 # Use it as an entry point
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
+# COPY run script to be used as an entrypoint after installation
+COPY ./image/run.sh /
 		
 #*********************************************************************
 #* Expose relevant ports
