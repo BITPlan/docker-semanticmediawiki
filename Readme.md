@@ -35,7 +35,7 @@ for the apache default page
 for the mediawiki installation
 * login with
 user: Sysop
-password: as displayed by the run script
+password: as displayed by the build script
 
 the ip-address for "smw" is optionally added at the start of "run" to your /etc/hosts file.
 
