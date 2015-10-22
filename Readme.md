@@ -1,17 +1,24 @@
 # docker-mediawiki
 Ubuntu MediaWiki container with fully automated install. 
+Will get your MediaWiki running in a few minutes.
 
 See  https://www.mediawiki.org/wiki/MediaWiki
 
 ## Features
-* Ubuntu 14.04 based Docker container
-* Installs Apache, MySQL, PHP5 
-* creates MySQL and MediaWiki SysOp password randomly
-* Installs MediaWiki with LocalSettings already configured
+* Ubuntu 14.04 based LAMP Docker container
+* Installs Linux, Apache, MySQL, PHP5 
+* by default creates MySQL and MediaWiki SysOp password randomly
+* Installs MediaWiki with LocalSettings already configured (step can be ommitted)
+* optionally installs Composer
+* optionally installs Semantic MediaWiki
 * build/run scripts included to start immediately
+
+### Documentation
+* [Wiki]  https://github.com/BITPlan/docker-mediawiki/wiki
 
 ## Installation
 * get your Docker installation up and running https://docs.docker.com/installation/
+### default installation
 * run the following commands in a shell/terminal:
 ```
 git clone https://github.com/BITPlan/docker-mediawiki
@@ -38,6 +45,23 @@ to your /etc/hosts file
 
 you can browse to the mediawiki via the url
 http://docker/mediawiki
+
+### installation options
+```
+./run -h
+```
+
+will show you the installation options
+```
+docker-mediawiki
+	see https://github.com/BITPlan/docker-mediawiki
+
+options: 
+       -h|--help             : show this usage
+    -nols|--no_local_settings: skip automatic creation of LocalSettings.php
+-composer|--composer         : install composer
+     -smw|--smw              : install Semantic MediaWiki
+```
 
 ## Project info
 * Mediawiki 1.23 based

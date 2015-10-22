@@ -23,8 +23,20 @@ MAINTAINER Wolfgang Fahl info@bitplan.com
 
 # MEDIAWIKI LTS Version
 # https://www.mediawiki.org/wiki/MediaWiki_1.23
+# LTS
 ENV MEDIAWIKI_VERSION 1.23
 ENV MEDIAWIKI mediawiki-1.23.11
+
+# see https://www.mediawiki.org/wiki/Download
+# as of 2015-10-22:
+# LEGACY: 1.24.4
+# STABLE: 15.3
+
+# Semantic Mediawiki Version (optional install)
+# see https://semantic-mediawiki.org
+# and https://semantic-mediawiki.org/wiki/Help:Installation/Using_Composer_with_MediaWiki_1.22_-_1.24
+# Please always omit the bugfix release number, i.e. the third number.
+ENV SMW_VERSION 2.2
 
 #*********************************************************************
 # Install Linux Apache MySQL PHP (LAMP)
@@ -50,10 +62,12 @@ RUN cd /var/www/html/ && \
 	tar -xzvf $MEDIAWIKI.tar.gz && \
 	rm *.tar.gz
 
-# Activea Apache PHP5 module
+# Activate Apache PHP5 module
 RUN a2enmod php5
 
+# Copy the install script
 COPY ./docker-entrypoint.sh /
+# Use it as an entry point
 ENTRYPOINT ["/docker-entrypoint.sh"]
 		
 #*********************************************************************

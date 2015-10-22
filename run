@@ -6,6 +6,13 @@
 # WF 2015-10-18
 #
 
+# set the imagehostname
+imagehostname="mediawiki"
+containername="mediawiki"
+
+# get the hostname
+hostname=`hostname`
+
 #ansi colors
 #http://www.csc.uvic.ca/~sae/seng265/fall04/tips/s265s047-tips/bash-using-colors.html
 blue='\033[0;34m'
@@ -25,8 +32,6 @@ color_msg() {
 	echo -e "${l_color}$l_msg${endColor}"
 }
 
-# get the hostname
-hostname=`hostname`
 
 # get the docker machine settings
 eval `docker-machine env default | grep DOCKER_HOST`
@@ -34,18 +39,18 @@ DOCKER_IP=`echo $DOCKER_HOST | cut -f2 -d: | cut -f3 -d/`
 grep $DOCKER_IP /etc/hosts > /dev/null
 if [ $? -ne 0 ]
 then
-  color_msg $red "docker $DOCKER_IP" 
+  color_msg $red "$DOCKER_IP $imagehostname" 
 	color_msg $red "missing in /etc/hosts on $hostname"
 	color_msg $blue "shall I add it y/n?"
 	read answer
 	case $answer in
 	  y|yes) 
-	    sudo bash -c "echo docker $DOCKER_IP >> /etc/hosts"
-	    color_msg $green "docker $DOCKER_IP added to /etc/hosts!" ;;
-	  *) color_msg $blue "the hostname of the mediawiki image will be set to docker!";;
+	    sudo bash -c "echo $DOCKER_IP $imagehostname >> /etc/hosts"
+	    color_msg $green "$DOCKER_IP $imagehostname added to /etc/hosts!" ;;
+	  *) color_msg $blue "the hostname of the mediawiki image will be set to $imagehostname!";;
 	esac
 else
-  color_msg $green "docker $DOCKER_IP already in /etc/hosts on $hostname"
+  color_msg $green "$imagehostname $DOCKER_IP already in /etc/hosts on $hostname"
 fi
 # run the mediawiki image
 if [  $# -eq 0 ]
@@ -56,4 +61,4 @@ else
 fi
 #echo "params: $params"
 # run docker and map port 80
-docker run -it -p 80:80 --hostname=docker bitplan/mediawiki:0.0.1 $params 
+docker run -it -p 80:80 --name=$containername --hostname=$imagehostname bitplan/mediawiki:0.0.1 $params 

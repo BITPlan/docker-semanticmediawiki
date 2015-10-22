@@ -7,6 +7,25 @@
 # 
 # build the MediaWiki image
 
+#ansi colors
+#http://www.csc.uvic.ca/~sae/seng265/fall04/tips/s265s047-tips/bash-using-colors.html
+blue='\033[0;34m'
+red='\033[0;31m'
+green='\033[0;32m' # '\e[1;32m' is too bright for white bg.
+endColor='\033[0m'
+
+#
+# a colored message 
+#   params:
+#     1: l_color - the color of the message
+#     2: l_msg - the message to display
+#
+color_msg() {
+  local l_color="$1"
+	local l_msg="$2"
+	echo -e "${l_color}$l_msg${endColor}"
+}
+
 version="0.0.1"
 # remember the time we started this
 start_date=$(date -u +"%s")
@@ -18,4 +37,4 @@ end_date=$(date -u +"%s")
 
 # show how long this took
 diff=$(($end_date-$start_date))
-echo "build took $(($diff / 60)) minutes and $(($diff % 60)) seconds."
+color_msg $blue "build took $(($diff / 60)) minutes and $(($diff % 60)) seconds."
