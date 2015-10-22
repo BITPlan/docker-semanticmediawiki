@@ -15,7 +15,8 @@ See  https://www.mediawiki.org/wiki/MediaWiki
 * build/run scripts included to start immediately
 
 ### Documentation
-* [Wiki]  https://github.com/BITPlan/docker-semanticmediawiki/wiki
+* [Wiki]   https://github.com/BITPlan/docker-semanticmediawiki/wiki
+* [Issues] https://github.com/BITPlan/docker-semanticmediawiki/issues
 
 ## Installation
 * get your Docker installation up and running https://docs.docker.com/installation/
