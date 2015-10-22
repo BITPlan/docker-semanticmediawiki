@@ -1,7 +1,8 @@
-# docker-mediawiki
-Ubuntu MediaWiki container with fully automated install. 
-Will get your MediaWiki running in a few minutes.
+# docker-semanticmediawiki
+Ubuntu Semantic MediaWiki container with fully automated install. 
+Will get your Semantic MediaWiki running in a few minutes.
 
+See http://www.semantic-mediawiki.org/
 See  https://www.mediawiki.org/wiki/MediaWiki
 
 ## Features
@@ -9,12 +10,12 @@ See  https://www.mediawiki.org/wiki/MediaWiki
 * Installs Linux, Apache, MySQL, PHP5 
 * by default creates MySQL and MediaWiki SysOp password randomly
 * Installs MediaWiki with LocalSettings already configured (step can be ommitted)
-* optionally installs Composer
-* optionally installs Semantic MediaWiki
+* installs Composer
+* installs Semantic MediaWiki
 * build/run scripts included to start immediately
 
 ### Documentation
-* [Wiki]  https://github.com/BITPlan/docker-mediawiki/wiki
+* [Wiki]  https://github.com/BITPlan/docker-semanticmediawiki/wiki
 
 ## Installation
 * get your Docker installation up and running https://docs.docker.com/installation/
@@ -68,6 +69,6 @@ options:
 * Apache License
 
 ## Version history
-* 0.0.1 - 2015-10 first Version
+* 0.0.1 - 2015-10-22 first Version
 
 
