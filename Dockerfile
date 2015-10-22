@@ -26,6 +26,7 @@ MAINTAINER Wolfgang Fahl info@bitplan.com
 # LTS
 ENV MEDIAWIKI_VERSION 1.23
 ENV MEDIAWIKI mediawiki-1.23.11
+ENV IMAGEHOSTNAME smw
 
 # see https://www.mediawiki.org/wiki/Download
 # as of 2015-10-22:
@@ -68,11 +69,14 @@ RUN a2enmod php5
 # Copy the install script
 COPY ./image/docker-entrypoint.sh /
 
-# Use it as an entry point
-ENTRYPOINT ["/docker-entrypoint.sh"]
+# run it
+RUN /bin/bash /docker-entrypoint.sh -smw
 
 # COPY run script to be used as an entrypoint after installation
 COPY ./image/run.sh /
+
+# Use it as an entry point
+ENTRYPOINT ["/bin/bash","/run.sh"]
 		
 #*********************************************************************
 #* Expose relevant ports

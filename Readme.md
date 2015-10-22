@@ -22,47 +22,22 @@ See  https://www.mediawiki.org/wiki/MediaWiki
 ### default installation
 * run the following commands in a shell/terminal:
 ```
-git clone https://github.com/BITPlan/docker-mediawiki
-cd docker-mediawiki
+git clone https://github.com/BITPlan/docker-semanticmediawiki
+cd docker-semanticmediawiki
 ./build
 ./run
 ```
 * point your browser to 
-  http://ip-address
+  http://smw
 for the apache default page
-  http://ip-address/mediawiki
+  http://smw/mediawiki
 for the mediawiki installation
 * login with
 user: Sysop
 password: as displayed by the run script
 
-the ip-address is shown at the start of "run".
+the ip-address for "smw" is optionally added at the start of "run" to your /etc/hosts file.
 
-* If you add
-```
-docker <ip-address>
-```
-to your /etc/hosts file
-
-you can browse to the mediawiki via the url
-http://docker/mediawiki
-
-### installation options
-```
-./run -h
-```
-
-will show you the installation options
-```
-docker-mediawiki
-	see https://github.com/BITPlan/docker-mediawiki
-
-options: 
-       -h|--help             : show this usage
-    -nols|--no_local_settings: skip automatic creation of LocalSettings.php
--composer|--composer         : install composer
-     -smw|--smw              : install Semantic MediaWiki
-```
 
 ## Project info
 * Mediawiki 1.23 based

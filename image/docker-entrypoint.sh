@@ -411,7 +411,8 @@ fi
 option=""
 installed=""
 # get the hostname
-hostname=`hostname`
+#hostname=`hostname`
+hostname=$IMAGEHOSTNAME
 
 while test $# -gt 0
 do

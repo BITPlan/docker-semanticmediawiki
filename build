@@ -30,7 +30,7 @@ version="0.0.1"
 # remember the time we started this
 start_date=$(date -u +"%s")
 # build the image
-docker build -t bitplan/mediawiki:$version .
+docker build -t bitplan/smw:$version .
 
 # stop the end time
 end_date=$(date -u +"%s")

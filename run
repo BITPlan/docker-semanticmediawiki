@@ -59,31 +59,25 @@ fi
 #echo "params: $params"
 
 # run or install the mediawiki image
-containerid=`docker ps -aq --filter "name=$containername"`
-if [ "$containerid" == "" ]
-then
-  if [  $# -eq 0 ]
-  then 
-    params="-smw"
-  else
-    params="$@"
-  fi
+#containerid=`docker ps -aq --filter "name=$containername"`
+#if [ "$containerid" == "" ]
+#then
   color_msg $green "running new container $containername with imagehostname $imagehostname"
   # run docker to install and map port 80
-  docker run -it -p 80:80 --name=$containername --hostname=$imagehostname bitplan/mediawiki:0.0.1 $params 
-else
-  color_msg $green "container $containername already exists with id $containerid."
-  color_msg $green "Remove this container with 'docker rm $containername' it to reinstall"
-  runcontainerid=`docker ps -q --filter "name=$containername"`
-  # check if the container is running
-  if [ "$runcontainerid" == "" ]
-  then
-    color_msg $blue "restarting container $containername without reinstall"
-    docker start $containername   
-  fi
-  color_msg $green "will start a shell for you ..."
-  docker exec -it $containername /bin/bash
-fi
+  docker run -d -p 80:80 --name $containername --hostname=$imagehostname bitplan/smw:0.0.1 
+#else
+#  color_msg $green "container $containername already exists with id $containerid."
+#  color_msg $green "Remove this container with 'docker rm $containername' it to reinstall"
+#  runcontainerid=`docker ps -q --filter "name=$containername"`
+#  # check if the container is running
+#  if [ "$runcontainerid" == "" ]
+#  then
+#    color_msg $blue "restarting container $containername without reinstall"
+#    docker start $containername   
+#  fi
+#  color_msg $green "will start a shell for you ..."
+#  docker exec -it $containername /bin/bash
+#fi
 
 # stop the end time
 end_date=$(date -u +"%s")
