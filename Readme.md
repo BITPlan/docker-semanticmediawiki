@@ -40,6 +40,12 @@ password: as displayed by the build script
 
 the ip-address for "smw" is optionally added at the start of "run" to your /etc/hosts file.
 
+## Running and stopping your container
+The run script has three modes
+* initially it runs the container to start mysql / apache
+* if the container exists and runs it will open a shell
+* if the container exists and does not run it will start it and open a shell
+
 ## Project info
 * Mediawiki 1.23 based
 * Apache License
