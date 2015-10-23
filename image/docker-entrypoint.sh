@@ -460,7 +460,7 @@ then
 	  php composer.phar require mediawiki/semantic-media-wiki "~$SMW_VERSION"
 	  php maintenance/update.php
 cat << EOF >> $localsettings
-	enableSemantics( "$docker" );
+	enableSemantics( "$hostname" );
 EOF
 	fi
 	

@@ -1,3 +1,8 @@
+# Copyright (c) 2015 BITPlan GmbH
+#
+# see LICENSE
+#
+# WF 2015-10-23
 #
 # entry point for existing docker image
 #
