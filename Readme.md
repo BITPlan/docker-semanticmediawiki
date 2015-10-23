@@ -16,6 +16,7 @@ See  https://www.mediawiki.org/wiki/MediaWiki
 
 ### Documentation
 * [Wiki]   https://github.com/BITPlan/docker-semanticmediawiki/wiki
+* [FAQ]    https://github.com/BITPlan/docker-semanticmediawiki/wiki#FAQ
 * [Issues] https://github.com/BITPlan/docker-semanticmediawiki/issues
 
 ## Installation
@@ -38,7 +39,6 @@ user: Sysop
 password: as displayed by the build script
 
 the ip-address for "smw" is optionally added at the start of "run" to your /etc/hosts file.
-
 
 ## Project info
 * Mediawiki 1.23 based
