@@ -1,5 +1,6 @@
 # docker-semanticmediawiki
 ![Mediawiki](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/MediaWiki_logo_1.png/128px-MediaWiki_logo_1.png)
+![SemanticMediaWiki](http://semantic-mediawiki.org/w/images/7/7c/SMW_logo_142px.png)
 
 Ubuntu Semantic MediaWiki container with fully automated install. 
 Will get your Semantic MediaWiki running in a few minutes.
