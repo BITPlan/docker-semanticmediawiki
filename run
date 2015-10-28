@@ -7,13 +7,17 @@
 #
 
 # set the names
-version="0.0.1"
+version="0.0.2"
 imagehostname="smw"
 imagename="smw"
 containername="smw"
 
 # get the hostname
 hostname=`hostname`
+
+# states
+port="80"
+recreate="false"
 
 #ansi colors
 #http://www.csc.uvic.ca/~sae/seng265/fall04/tips/s265s047-tips/bash-using-colors.html
@@ -34,29 +38,114 @@ color_msg() {
 	echo -e "${l_color}$l_msg${endColor}"
 }
 
+#
+# error
+#
+#   show an error message and exit
+#
+#   params:
+#     1: l_msg - the message to display
+error() {
+  local l_msg="$1"
+	# use ansi red for error
+  color_msg $red "Error: $l_msg" 1>&2
+  exit 1
+}
+
+#
+# show usage
+#
+usage() {
+  local p_name=`basename $0`
+  echo "$p_name"
+  echo "       -h |--help        : show this usage"
+  echo "       -p |--port [port] : set port to be used"
+  echo "       -rc|--recreate    : recreate the container" 
+  exit 1
+}
+
+#
+# get docker ip
+#
+get_dockerip() {
+  # check whether docker-machine is available
+  which docker-machine > /dev/null
+  if [ $? -ne 0 ]
+  then
+    docker inspect profiwiki | grep IPAddress | cut -d '"' -f 4
+  else
+    # get the docker machine settings
+    eval `docker-machine env default | grep DOCKER_HOST`
+    echo $DOCKER_HOST | cut -f2 -d: | cut -f3 -d/
+  fi
+}
+
+#
+# set the host
+#
+sethost() {
+  grep $DOCKER_IP /etc/hosts | grep $imagehostname > /dev/null
+  if [ $? -ne 0 ]
+  then
+    color_msg $red "$DOCKER_IP $imagehostname" 
+    color_msg $red "missing in /etc/hosts on $hostname"
+    color_msg $blue "shall I add it y/n?"
+    read answer
+    case $answer in
+      y|yes) 
+      sudo bash -c "echo $DOCKER_IP $imagehostname >> /etc/hosts"
+      color_msg $green "$DOCKER_IP $imagehostname added to /etc/hosts!" ;;
+      *) color_msg $blue "the hostname of the mediawiki image will be set to $imagehostname!";;
+    esac
+  else
+    color_msg $green "$imagehostname $DOCKER_IP already in /etc/hosts on $hostname"
+  fi
+}
+
+#
+# show link
+#
+showlink () {
+  color_msg $green "$containername is at http://$DOCKER_IP:$port/mediawiki"
+}
+
 # remember the time we started this
 start_date=$(date -u +"%s")
 
-# get the docker machine settings
-eval `docker-machine env default | grep DOCKER_HOST`
-DOCKER_IP=`echo $DOCKER_HOST | cut -f2 -d: | cut -f3 -d/`
-grep $DOCKER_IP /etc/hosts | grep $imagehostname > /dev/null
-if [ $? -ne 0 ]
-then
-  color_msg $red "$DOCKER_IP $imagehostname" 
-	color_msg $red "missing in /etc/hosts on $hostname"
-	color_msg $blue "shall I add it y/n?"
-	read answer
-	case $answer in
-	  y|yes) 
-	    sudo bash -c "echo $DOCKER_IP $imagehostname >> /etc/hosts"
-	    color_msg $green "$DOCKER_IP $imagehostname added to /etc/hosts!" ;;
-	  *) color_msg $blue "the hostname of the mediawiki image will be set to $imagehostname!";;
-	esac
-else
-  color_msg $green "$imagehostname $DOCKER_IP already in /etc/hosts on $hostname"
-fi
+while test $# -gt 0
+do
+  case $1 in
+    # help
+    -h|--help) 
+      usage;;
+      
+    # set port to be used  
+    -p|--port) 
+      shift
+      port=$1
+      ;;  
+    
+    -rc|--recreate)
+      recreate="true";
+      ;;  
+  esac
+  shift
+done      
 
+# get the DOCKER IP
+DOCKER_IP=`get_dockerip`
+
+#
+# prepare recreate
+#
+if [ "$recreate" = "true" ]
+then
+  color_msg $blue "preparing recreate of $containername"
+  color_msg $blue "stopping $containername"
+  docker stop $containername
+  color_msg $blue "remove $containername"
+  docker rm $containername  
+fi
 
 #
 # run, start or attach to the container 
@@ -64,12 +153,20 @@ fi
 containerid=`docker ps -aq --filter "name=$containername"`
 if [ "$containerid" == "" ]
 then
-  color_msg $green "running new container $containername with imagehostname $imagehostname"
+  color_msg $blue "running new container $containername with imagehostname $imagehostname"
   # run docker to install and map port 80
-  docker run -d -p 80:80 --name $containername --hostname=$imagehostname bitplan/$imagename:$version 
+  portmap=""
+  if [ "$port" != "" ]
+  then
+    portmap="-p $port:80"
+  fi
+  docker run -d $portmap --name $containername --hostname=$imagehostname bitplan/$imagename:$version 
+  sethost
+	showlink
 else
   color_msg $green "container $containername already exists with id $containerid."
   color_msg $green "Remove this container with 'docker rm $containername' if you need to do so"
+  color_msg $green "or use the -rc option for this script"
   runcontainerid=`docker ps -q --filter "name=$containername"`
   # check if the container is running
   if [ "$runcontainerid" == "" ]
@@ -79,10 +176,10 @@ else
   else
     color_msg $blue "container $containername is already running"
   fi
+	showlink
   color_msg $green "will start a shell for you ..."
   docker exec -it $containername /bin/bash
 fi
-
 
 # stop the end time
 end_date=$(date -u +"%s")
