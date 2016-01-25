@@ -458,6 +458,8 @@ then
 	  cd $mwpath
 	  # see https://semantic-mediawiki.org/wiki/Help:Installation/Using_Composer_with_MediaWiki_1.22_-_1.24
 	  php composer.phar require mediawiki/semantic-media-wiki "~$SMW_VERSION"
+	   # Semantic forms
+    php ./composer.phar require mediawiki/semantic-forms "3.4.*"
 	  php maintenance/update.php
 cat << EOF >> $localsettings
 	enableSemantics( "$hostname" );

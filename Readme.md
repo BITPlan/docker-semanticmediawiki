@@ -56,5 +56,6 @@ The run script has three modes
 
 ## Version history
 * 0.0.1 - 2015-10-22 first Version
+* 0.0.2 - 2016-01-25 fixes #7 and upgraded to Mediawik 1.23.13
 
 
