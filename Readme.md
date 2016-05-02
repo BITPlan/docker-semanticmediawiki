@@ -24,7 +24,7 @@ See  https://www.mediawiki.org/wiki/MediaWiki
 
 ## Installation
 * get your Docker installation up and running https://docs.docker.com/installation/
-* you might want to make sure that you hava at least version 1.8.3
+* you might want to make sure that you have at least version 1.8.3
 
 ### default installation
 * run the following commands in a shell/terminal:
