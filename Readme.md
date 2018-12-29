@@ -66,5 +66,5 @@ The run script has three modes
 ## Version history
 * 0.0.1 - 2015-10-22 first Version
 * 0.0.2 - 2016-01-25 fixes #7 and upgrades to Mediawiki 1.23.13
-* 0.0.3 - 2018-12-29 fixes #8 
+* 0.0.3 - 2018-12-29 fixes #8 and upgrades to Ubuntu 16.04, Mediawiki 1.27.5 and PHP 7.0
 

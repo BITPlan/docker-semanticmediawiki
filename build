@@ -26,7 +26,7 @@ color_msg() {
 	echo -e "${l_color}$l_msg${endColor}"
 }
 
-version="0.0.2"
+version="0.0.3"
 # remember the time we started this
 start_date=$(date -u +"%s")
 # build the image

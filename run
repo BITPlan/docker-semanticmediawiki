@@ -7,7 +7,7 @@
 #
 
 # set the names
-version="0.0.2"
+version="0.0.3"
 imagename="smw"
 containername="smw"
 

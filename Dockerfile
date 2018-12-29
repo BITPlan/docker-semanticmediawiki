@@ -10,7 +10,7 @@
 #*********************************************************************
 
 # Ubuntu image
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 # 
 # Maintained by Wolfgang Fahl / BITPlan GmbH http://www.bitplan.com
@@ -22,23 +22,23 @@ MAINTAINER Wolfgang Fahl info@bitplan.com
 #*********************************************************************
 
 # MEDIAWIKI LTS Version
-# https://www.mediawiki.org/wiki/MediaWiki_1.23
+# https://www.mediawiki.org/wiki/MediaWiki_1.27
 # LTS
-ENV MEDIAWIKI_VERSION 1.23
-ENV MEDIAWIKI mediawiki-1.23.13
+ENV MEDIAWIKI_VERSION 1.27
+ENV MEDIAWIKI mediawiki-1.27.5
 ARG IMAGEHOSTNAME=smw
 ENV IMAGEHOSTNAME ${IMAGEHOSTNAME} 
+ARG DEBIAN_FRONTEND=noninteractive
 
 # see https://www.mediawiki.org/wiki/Download
-# as of 2015-10-22:
-# LEGACY: 1.24.4
-# STABLE: 15.3
+# as of 2018-12-28:
+# LEGACY long-term: 1.27.5
 
 # Semantic Mediawiki Version (optional install)
 # see https://semantic-mediawiki.org
 # and https://semantic-mediawiki.org/wiki/Help:Installation/Using_Composer_with_MediaWiki_1.22_-_1.24
 # Please always omit the bugfix release number, i.e. the third number.
-ENV SMW_VERSION 2.2
+ENV SMW_VERSION 2.5.8
 
 #*********************************************************************
 # Install Linux Apache MySQL PHP (LAMP)
@@ -49,15 +49,20 @@ RUN \
   apt-get update && \
   apt-get install -y \
 	apache2 \
+	apt-utils \
 	curl \
 	dialog \
 	git \
-	libapache2-mod-php5 \
+	libapache2-mod-php7.0 \
 	mysql-server \
-	php5 \
-	php5-cli \
-	php5-gd \
-	php5-mysql
+	vim \
+	unzip \
+	php7.0 \
+	php7.0-cli \
+	php7.0-gd \
+	php7.0-mbstring \
+	php7.0-xml \
+	php7.0-mysql
 		
 # see https://www.mediawiki.org/wiki/Manual:Installing_MediaWiki
 RUN cd /var/www/html/ && \
@@ -65,8 +70,8 @@ RUN cd /var/www/html/ && \
 	tar -xzvf $MEDIAWIKI.tar.gz && \
 	rm *.tar.gz
 
-# Activate Apache PHP5 module
-RUN a2enmod php5
+# Activate Apache PHP module
+RUN a2enmod php7.0
 
 # Copy the install script
 COPY ./image/docker-entrypoint.sh /
