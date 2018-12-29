@@ -5,9 +5,9 @@
 Ubuntu Semantic MediaWiki container with fully automated install. 
 Will get your Semantic MediaWiki running in a few minutes.
 
-See http://www.semantic-mediawiki.org/
-See  https://www.mediawiki.org/wiki/MediaWiki
-see https://github.com/SemanticMediaWiki/SemanticMediaWiki/issues/1218
+* See http://www.semantic-mediawiki.org/
+* See  https://www.mediawiki.org/wiki/MediaWiki
+* see https://github.com/SemanticMediaWiki/SemanticMediaWiki/issues/1218
 
 ## Features
 * Ubuntu 14.04 based LAMP Docker container
