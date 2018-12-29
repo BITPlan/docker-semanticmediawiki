@@ -7,6 +7,7 @@ Will get your Semantic MediaWiki running in a few minutes.
 
 See http://www.semantic-mediawiki.org/
 See  https://www.mediawiki.org/wiki/MediaWiki
+see https://github.com/SemanticMediaWiki/SemanticMediaWiki/issues/1218
 
 ## Features
 * Ubuntu 14.04 based LAMP Docker container
@@ -34,16 +35,23 @@ cd docker-semanticmediawiki
 ./build
 ./run
 ```
+
 * point your browser to 
   http://smw
 for the apache default page
   http://smw/mediawiki
+
 for the mediawiki installation
 * login with
 user: Sysop
 password: as displayed by the build script
 
 the ip-address for "smw" is optionally added at the start of "run" to your /etc/hosts file.
+
+The imagehostname is now set to your hostname by default assuming a linux environment.
+So replace "smw" with your own hostname e.g. if you run on www.example.com the result will be available
+at http://www.example.com/mediawiki
+
 
 ## Running and stopping your container
 The run script has three modes
@@ -58,5 +66,5 @@ The run script has three modes
 ## Version history
 * 0.0.1 - 2015-10-22 first Version
 * 0.0.2 - 2016-01-25 fixes #7 and upgrades to Mediawiki 1.23.13
-
+* 0.0.3 - 2018-12-29 fixes #8 
 
