@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2015 BITPlan GmbH
+# Copyright (c) 2015-2018 BITPlan GmbH
 #
 # see LICENSE
 #
@@ -109,6 +109,14 @@ showlink () {
   color_msg $green "$containername is at http://$DOCKER_IP:$port/mediawiki"
 }
 
+# 
+# get the container id
+#
+getcontainerid() {
+  local l_option="$1"
+  docker ps -q $l_option --filter "name=^\$containername$"
+}
+
 # remember the time we started this
 start_date=$(date -u +"%s")
 
@@ -147,10 +155,12 @@ then
   docker rm $containername  
 fi
 
+
+
 #
 # run, start or attach to the container 
 #
-containerid=`docker ps -aq --filter "name=$containername"`
+containerid=$(getcontainerid -a)
 if [ "$containerid" == "" ]
 then
   color_msg $blue "running new container $containername with imagehostname $imagehostname"
@@ -167,7 +177,7 @@ else
   color_msg $green "container $containername already exists with id $containerid."
   color_msg $green "Remove this container with 'docker rm $containername' if you need to do so"
   color_msg $green "or use the -rc option for this script"
-  runcontainerid=`docker ps -q --filter "name=$containername"`
+  runcontainerid=$(getcontainerid)
   # check if the container is running
   if [ "$runcontainerid" == "" ]
   then

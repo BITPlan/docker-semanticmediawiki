@@ -1,6 +1,6 @@
 #*********************************************************************
 #
-# Copyright (c) 2015 BITPlan GmbH
+# Copyright (c) 2015-2018 BITPlan GmbH
 # 
 # see LICENSE
 #
@@ -45,6 +45,7 @@ ENV SMW_VERSION 2.2
 
 # see https://www.mediawiki.org/wiki/Manual:Running_MediaWiki_on_Ubuntu 
 RUN \
+  apt-get update && \
   apt-get install -y \
 	apache2 \
 	curl \
