@@ -8,12 +8,12 @@
 
 # set the names
 version="0.0.2"
-imagehostname="smw"
 imagename="smw"
 containername="smw"
 
 # get the hostname
 hostname=`hostname`
+imagehostname=$hostname
 
 # states
 port="80"
@@ -72,7 +72,7 @@ get_dockerip() {
   which docker-machine > /dev/null
   if [ $? -ne 0 ]
   then
-    docker inspect $containername | grep IPAddress | cut -d '"' -f 4
+    docker inspect $containername | grep IPAddress | tail -1 | cut -d '"' -f 4
   else
     # get the docker machine settings
     eval `docker-machine env default | grep DOCKER_HOST`
@@ -114,7 +114,7 @@ showlink () {
 #
 getcontainerid() {
   local l_option="$1"
-  docker ps -q $l_option --filter "name=^\$containername$"
+  docker ps -q $l_option --filter "name=^$containername\$"
 }
 
 # remember the time we started this
@@ -154,7 +154,6 @@ then
   color_msg $blue "remove $containername"
   docker rm $containername  
 fi
-
 
 
 #

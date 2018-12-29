@@ -30,7 +30,9 @@ version="0.0.2"
 # remember the time we started this
 start_date=$(date -u +"%s")
 # build the image
-docker build -t bitplan/smw:$version .
+docker build -t bitplan/smw:$version \
+  --build-arg IMAGEHOSTNAME=$(hostname) \
+  .
 
 # stop the end time
 end_date=$(date -u +"%s")

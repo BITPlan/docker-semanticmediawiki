@@ -25,8 +25,9 @@ MAINTAINER Wolfgang Fahl info@bitplan.com
 # https://www.mediawiki.org/wiki/MediaWiki_1.23
 # LTS
 ENV MEDIAWIKI_VERSION 1.23
-ENV MEDIAWIKI mediawiki-1.23.11
-ENV IMAGEHOSTNAME smw
+ENV MEDIAWIKI mediawiki-1.23.13
+ARG IMAGEHOSTNAME=smw
+ENV IMAGEHOSTNAME ${IMAGEHOSTNAME} 
 
 # see https://www.mediawiki.org/wiki/Download
 # as of 2015-10-22:

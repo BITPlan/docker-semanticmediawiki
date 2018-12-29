@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2015 BITPlan GmbH
+# Copyright (c) 2015-2018 BITPlan GmbH
 #
 # see LICENSE
 #
