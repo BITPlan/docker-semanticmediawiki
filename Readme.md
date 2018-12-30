@@ -19,9 +19,9 @@ Will get your Semantic MediaWiki running in a few minutes.
 * build/run scripts included to start immediately
 
 ### Documentation
-* [Wiki]   (http://wiki.bitplan.com/index.php/Docker-semanticmediawiki) 
-* [FAQ]    (http://wiki.bitplan.com/index.php/Docker-semanticmediawiki#FAQ) 
-* [Issues] (https://github.com/BITPlan/docker-semanticmediawiki/issues)
+* [Wiki](http://wiki.bitplan.com/index.php/Docker-semanticmediawiki "Documentation Wiki") 
+* [FAQ](http://wiki.bitplan.com/index.php/Docker-semanticmediawiki#FAQ "Frequently Asked Questions") 
+* [Issues](https://github.com/BITPlan/docker-semanticmediawiki/issues "github issues")
 
 ## Installation
 * get your Docker installation up and running https://docs.docker.com/installation/
