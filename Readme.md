@@ -10,8 +10,8 @@ Will get your Semantic MediaWiki running in a few minutes.
 * see https://github.com/SemanticMediaWiki/SemanticMediaWiki/issues/1218
 
 ## Features
-* Ubuntu 14.04 based LAMP Docker container
-* Installs Linux, Apache, MySQL, PHP5 
+* Ubuntu 16.04 based LAMP Docker container
+* Installs Linux, Apache, MySQL, PHP7 
 * by default creates MySQL and MediaWiki SysOp password randomly
 * Installs MediaWiki with LocalSettings already configured (step can be ommitted)
 * installs Composer
@@ -25,7 +25,7 @@ Will get your Semantic MediaWiki running in a few minutes.
 
 ## Installation
 * get your Docker installation up and running https://docs.docker.com/installation/
-* you might want to make sure that you have at least version 1.8.3
+* tested 2018-12 with Docker 18.09.
 
 ### default installation
 * run the following commands in a shell/terminal:
@@ -60,7 +60,7 @@ The run script has three modes
 * if the container exists and does not run it will start it and open a shell
 
 ## Project info
-* Mediawiki 1.23 based
+* Mediawiki 1.27.5 based
 * Apache License
 
 ## Version history
